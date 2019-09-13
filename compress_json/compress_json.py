@@ -2,11 +2,8 @@
 """
 A thin wrapper of standard ``json`` with standard compression libraries
 """
-import os
-import sys
-import warnings
 import json
-from typing import Dict, Tuple, List
+from typing import Dict
 
 __all__ = [
     "dump",
