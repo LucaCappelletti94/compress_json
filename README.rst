@@ -2,7 +2,7 @@ compress_json
 =========================================================================================
 |travis| |sonar_quality| |sonar_maintainability| |codacy| |code_climate_maintainability| |pip| |downloads|
 
-Python package that handles loading and dumping json files in a compressed fashion.
+Python package that handles loading and dumping json files in a compressed fashion. The library is loosely based on the `compress_pickle <https://github.com/lucianopaz/compress_pickle>`_ library.
 
 How do I install this package?
 ----------------------------------------------
@@ -18,8 +18,56 @@ Since some software handling coverages sometime get slightly different results, 
 
 |coveralls| |sonar_coverage| |code_climate_coverage|
 
-Python package that handles loading and dumping json files in a compressed fashion.
+Available compression modes
+----------------------------------------------
+The compression modes, detected automatically by the file name, are **gzip**, **bz2** and **lzma**,
+with the notable exception of **zip**which seems difficult to integrate in the json pipeline.
 
+Usage example
+----------------------------------------------
+The library is extremely easy to use:
+
+.. code:: python
+
+    import compress_json
+    
+    D = {
+        "A":{
+            "B":"C"
+        }
+    }
+    compress_json.dump(D, "filepath.json.gz") # for a gzip file
+    compress_json.dump(D, "filepath.json.bz") # for a bz2 file
+    compress_json.dump(D, "filepath.json.lzma") # for a lzma file
+
+    D1 = compress_json.load("filepath.json.gz") # for loading a gzip file
+    D2 = compress_json.load("filepath.json.bz") # for loading a bz2 file
+    D3 = compress_json.load("filepath.json.lzma") # for loading a lzma file
+
+Advanced usage
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Clearly you can pass parameters to either the chosen compression mode or the json library as follows:
+
+.. code:: python
+
+    import compress_json
+    
+    D = {
+        "A":{
+            "B":"C"
+        }
+    }
+    compress_json.dump(
+        D, "filepath.json.gz",
+        compression_kwargs = {kwargs go here},
+        json_kwargs = {kwargs go here}
+    )
+
+    D4 = compress_json.load(
+        "filepath.json.gz",
+        compression_kwargs = {kwargs go here},
+        json_kwargs = {kwargs go here}
+    )
 
 .. |travis| image:: https://travis-ci.org/LucaCappelletti94/compress_json.png
    :target: https://travis-ci.org/LucaCappelletti94/compress_json

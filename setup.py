@@ -63,7 +63,7 @@ setup(
     tests_require=test_deps,
     # Add here the package dependencies
     install_requires=[
-        "gzip", "bz2", "lzma", "zipfile"
+        "bz2", "lzma"
     ],
     extras_require=extras,
 )
