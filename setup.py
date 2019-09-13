@@ -62,8 +62,6 @@ setup(
     packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
     tests_require=test_deps,
     # Add here the package dependencies
-    install_requires=[
-        "bz2", "lzma"
-    ],
+    install_requires=[],
     extras_require=extras,
 )
