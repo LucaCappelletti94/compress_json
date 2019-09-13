@@ -21,7 +21,7 @@ Since some software handling coverages sometime get slightly different results, 
 Available compression modes
 ----------------------------------------------
 The compression modes, detected automatically by the file name, are **gzip**, **bz2** and **lzma**,
-with the notable exception of **zip**which seems difficult to integrate in the json pipeline.
+with the notable exception of **zip** which seems difficult to integrate in the json pipeline.
 
 Usage example
 ----------------------------------------------
