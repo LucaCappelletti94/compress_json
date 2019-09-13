@@ -34,7 +34,9 @@ test_deps =[
     "pytest-cov",
     "coveralls",
     "validate_version_code",
-    "codacy-coverage"
+    "codacy-coverage",
+    "random_dict",
+    "dict_hash"
 ]
 
 extras = {
@@ -60,6 +62,8 @@ setup(
     packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
     tests_require=test_deps,
     # Add here the package dependencies
-    install_requires=[],
+    install_requires=[
+        "gzip", "bz2", "lzma", "zipfile"
+    ],
     extras_require=extras,
 )

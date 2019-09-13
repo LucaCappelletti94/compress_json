@@ -1,0 +1,1 @@
+from .compress_json import load, dump

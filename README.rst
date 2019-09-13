@@ -41,12 +41,12 @@ Python package that handles loading and dumping json files in a compressed fashi
     :target: https://coveralls.io/github/LucaCappelletti94/compress_json?branch=master
     :alt: Coveralls Coverage
 
-.. |pip| image:: https://badge.fury.io/py/compress_json.svg
-    :target: https://badge.fury.io/py/compress_json
+.. |pip| image:: https://badge.fury.io/py/compress-json.svg
+    :target: https://badge.fury.io/py/compress-json
     :alt: Pypi project
 
-.. |downloads| image:: https://pepy.tech/badge/compress_json
-    :target: https://pepy.tech/badge/compress_json
+.. |downloads| image:: https://pepy.tech/badge/compress-json
+    :target: https://pepy.tech/badge/compress-json
     :alt: Pypi total project downloads 
 
 .. |codacy|  image:: https://api.codacy.com/project/badge/Grade/6aa4b62b4ed34f7d8e2c37ef09848294
