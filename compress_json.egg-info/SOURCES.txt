@@ -1,0 +1,11 @@
+MANIFEST.in
+README.rst
+setup.py
+compress_json/__init__.py
+compress_json/__version__.py
+compress_json/compress_json.py
+compress_json.egg-info/PKG-INFO
+compress_json.egg-info/SOURCES.txt
+compress_json.egg-info/dependency_links.txt
+compress_json.egg-info/requires.txt
+compress_json.egg-info/top_level.txt
