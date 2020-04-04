@@ -2,7 +2,7 @@ compress_json
 =========================================================================================
 |travis| |sonar_quality| |sonar_maintainability| |codacy| |code_climate_maintainability| |pip| |downloads|
 
-Python package that handles loading and dumping json files in a compressed fashion. The library is loosely based on the `compress_pickle <https://github.com/lucianopaz/compress_pickle>`_ library.
+Python package that handles loading and dumping JSON files in a compressed fashion. The library is loosely based on the `compress_pickle <https://github.com/lucianopaz/compress_pickle>`_ library.
 
 How do I install this package?
 ----------------------------------------------
@@ -14,14 +14,15 @@ As usual, just download it using pip:
 
 Tests Coverage
 ----------------------------------------------
-Since some software handling coverages sometime get slightly different results, here's three of them:
+Since some software handling coverages sometimes
+get slightly different results, here's three of them:
 
 |coveralls| |sonar_coverage| |code_climate_coverage|
 
 Available compression modes
 ----------------------------------------------
 The compression modes, detected automatically by the file name, are **gzip**, **bz2** and **lzma**,
-with the notable exception of **zip** which seems difficult to integrate in the json pipeline.
+with the notable exception of **zip** which seems difficult to integrate in the JSON pipeline.
 
 Usage example
 ----------------------------------------------
@@ -43,6 +44,33 @@ The library is extremely easy to use:
     D1 = compress_json.load("filepath.json.gz") # for loading a gzip file
     D2 = compress_json.load("filepath.json.bz") # for loading a bz2 file
     D3 = compress_json.load("filepath.json.lzma") # for loading a lzma file
+
+
+Som extra perks
+----------------------------------------------
+The library makes available, other than the usual load and dump from the
+JSON library, also the methods load_load and local_dump which let you
+load and dump file in the same directory of wherever you are calling them,
+by using the call stack.
+
+This can get useful expecially when loading files within packages.
+
+.. code:: python
+
+    import compress_json
+    
+    D = {
+        "A":{
+            "B":"C"
+        }
+    }
+    compress_json.local_dump(D, "filepath.json.gz") # for a gzip file
+    compress_json.local_dump(D, "filepath.json.bz") # for a bz2 file
+    compress_json.local_dump(D, "filepath.json.lzma") # for a lzma file
+
+    D1 = compress_json.local_load("filepath.json.gz") # for loading a gzip file
+    D2 = compress_json.local_load("filepath.json.bz") # for loading a bz2 file
+    D3 = compress_json.local_load("filepath.json.lzma") # for loading a lzma file
 
 Advanced usage
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
