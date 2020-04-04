@@ -70,7 +70,7 @@ def dump(obj, path: str, compression_kwargs: Dict = None, json_kwargs: Dict = No
     compression = infer_compression_from_filename(path)
     mode = get_compression_write_mode(compression)
     if compression is None or compression == "json":
-        fout = open(path, mode=mode, **compression_kwargs)
+        fout = open(path, mode=mode, encoding="utf-8",**compression_kwargs)
     elif compression == "gzip":
         import gzip
 
@@ -103,7 +103,7 @@ def load(path: str, compression_kwargs: Dict = None, json_kwargs: Dict = None):
     compression = infer_compression_from_filename(path)
     mode = get_compression_read_mode(compression)
     if compression is None or compression == "json":
-        file = open(path, mode=mode, **compression_kwargs)
+        file = open(path, mode=mode, encoding="utf-8", **compression_kwargs)
     elif compression == "gzip":
         import gzip
         file = gzip.open(path, mode=mode, encoding="utf-8", **compression_kwargs)
