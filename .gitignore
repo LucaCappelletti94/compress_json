@@ -1,9 +1,9 @@
 \.vscode/
 
 \.DS_Store
-
+.pytest_cache
 */__pycache__/*
-
+.coverage
 **/__pycache__/*
 
 .notipy.json
