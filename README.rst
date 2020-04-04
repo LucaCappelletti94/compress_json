@@ -2,7 +2,8 @@ compress_json
 =========================================================================================
 |travis| |sonar_quality| |sonar_maintainability| |codacy| |code_climate_maintainability| |pip| |downloads|
 
-Python package that handles loading and dumping JSON files in a compressed fashion. The library is loosely based on the `compress_pickle <https://github.com/lucianopaz/compress_pickle>`_ library.
+Python package that handles loading and dumping JSON files in a compressed fashion.
+The library is loosely based on the `compress_pickle <https://github.com/lucianopaz/compress_pickle>`_ library.
 
 How do I install this package?
 ----------------------------------------------
