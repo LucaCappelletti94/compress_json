@@ -56,8 +56,9 @@ def infer_compression_from_filename(filename: str) -> str:
 
 def dump(obj: Any, path: str, compression_kwargs: Dict = None, json_kwargs: Dict = None):
     """Dump the contents of an object to disk as json, to the supplied path, using the detected compression protocol.
+    
     Parameters
-    ----------
+    ----------------
     obj: any
         The object that will be saved to disk
     path: str
@@ -66,7 +67,14 @@ def dump(obj: Any, path: str, compression_kwargs: Dict = None, json_kwargs: Dict
         keywords argument to pass to the compressed file opening protocol.
     json_kwargs:
         keywords argument to pass to the json file opening protocol.
+
+    Raises
+    ----------------
+    ValueError,
+        If given path is not a valid string.
     """
+    if not isinstance(path, str):
+        raise ValueError("The given path is not a string.")
     compression_kwargs = {} if compression_kwargs is None else compression_kwargs
     json_kwargs = {} if json_kwargs is None else json_kwargs
     compression = infer_compression_from_filename(path)
@@ -108,7 +116,15 @@ def load(path: str, compression_kwargs: Dict = None, json_kwargs: Dict = None):
         keywords argument to pass to the compressed file opening protocol.
     json_kwargs:
         keywords argument to pass to the json file opening protocol.
+    
+    Raises
+    ----------------
+    ValueError,
+        If given path is not a valid string.
     """
+    if not isinstance(path, str):
+        raise ValueError("The given path is not a string.")
+
     compression_kwargs = {} if compression_kwargs is None else compression_kwargs
     json_kwargs = {} if json_kwargs is None else json_kwargs
     compression = infer_compression_from_filename(path)
@@ -151,6 +167,11 @@ def local_load(path: str, compression_kwargs: Dict = None, json_kwargs: Dict = N
         keywords argument to pass to the compressed file opening protocol.
     json_kwargs:
         keywords argument to pass to the json file opening protocol.
+
+    Raises
+    ----------------
+    ValueError,
+        If given path is not a valid string.
     """
     return load(local_path(path), compression_kwargs, json_kwargs)
 
@@ -168,5 +189,10 @@ def local_dump(obj: Any, path: str, compression_kwargs: Dict = None, json_kwargs
         keywords argument to pass to the compressed file opening protocol.
     json_kwargs:
         keywords argument to pass to the json file opening protocol.
+    
+    Raises
+    ----------------
+    ValueError,
+        If given path is not a valid string.
     """
     dump(obj, local_path(path), compression_kwargs, json_kwargs)
