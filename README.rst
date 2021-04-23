@@ -49,20 +49,17 @@ The library is extremely easy to use:
 
 Some extra perks
 ----------------------------------------------
-The library makes available, other than the usual load and dump from the
-JSON library, also the methods load_load and local_dump which let you
-load and dump file in the same directory of wherever you are calling them,
-by using the call stack.
+The library makes available, other than the usual load and dump from the JSON library, the methods load_load and local_dump, which let you load and dump file in the same directory of wherever you are calling them, by using the call stack.
 
-This can get useful especially when loading files within packages.
+This can get useful, especially when loading files within packages.
 
 .. code:: python
 
     import compress_json
     
     D = {
-        "A":{
-            "B":"C"
+        "A": {
+            "B": "C"
         }
     }
     compress_json.local_dump(D, "filepath.json.gz") # for a gzip file
@@ -82,8 +79,8 @@ Clearly you can pass parameters to either the chosen compression mode or the jso
     import compress_json
     
     D = {
-        "A":{
-            "B":"C"
+        "A": {
+            "B": "C"
         }
     }
     compress_json.dump(
