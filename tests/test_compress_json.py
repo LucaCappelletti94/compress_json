@@ -1,11 +1,11 @@
 import compress_json
 import shutil
-from random_dict import random_dict
+from random_dict import random_string_dict
 from dict_hash import sha256
 
 
 def test_compress_json():
-    D = random_dict(10, 10)
+    D = random_string_dict(10, 10)
     key = sha256(D)
     extensions = compress_json.compress_json._DEFAULT_EXTENSION_MAP.keys()
     for ext in extensions:
