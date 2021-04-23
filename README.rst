@@ -49,7 +49,7 @@ The library is extremely easy to use:
 
 Some extra perks
 ----------------------------------------------
-The library makes available, other than the usual load and dump from the JSON library, the methods load_load and local_dump, which let you load and dump file in the same directory of wherever you are calling them, by using the call stack.
+The library makes available, other than the usual load and dump from the JSON library, the methods local_load and local_dump, which let you load and dump file in the same directory of wherever you are calling them, by using the call stack.
 
 This can get useful, especially when loading files within packages.
 
