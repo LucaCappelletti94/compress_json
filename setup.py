@@ -1,3 +1,4 @@
+"""Module providing the installation setup for the compress_json package."""
 import os
 import re
 # To use a consistent encoding
@@ -14,11 +15,13 @@ with copen(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 
 def read(*parts):
-    with copen(os.path.join(here, *parts), 'r') as fp:
-        return fp.read()
+    """Read document at given path."""
+    with copen(os.path.join(here, *parts), 'r') as file:
+        return file.read()
 
 
 def find_version(*file_paths):
+    """Returns version code found in provided standard version document."""
     version_file = read(*file_paths)
     version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]",
                               version_file, re.M)
@@ -46,7 +49,7 @@ extras = {
 setup(
     name='compress_json',
     version=__version__,
-    description="Python package that handles loading and dumping json files in a compressed fashion.",
+    description="The missing Python utility to read and write large compressed JSONs.",
     long_description=long_description,
     url="https://github.com/LucaCappelletti94/compress_json",
     author="Luca Cappelletti",

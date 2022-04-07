@@ -2,7 +2,8 @@ compress_json
 =========================================================================================
 |travis| |sonar_quality| |sonar_maintainability| |codacy| |code_climate_maintainability| |pip| |downloads|
 
-Python package that handles loading and dumping JSON files in a compressed fashion.
+The missing Python utility to read and write large compressed JSONs.
+
 The library is loosely based on the `compress_pickle <https://github.com/lucianopaz/compress_pickle>`_ library.
 
 How do I install this package?
@@ -47,7 +48,7 @@ The library is extremely easy to use:
     D3 = compress_json.load("filepath.json.lzma") # for loading a lzma file
 
 
-Some extra perks
+Some extra perks: local loading and dumping
 ----------------------------------------------
 The library makes available, other than the usual load and dump from the JSON library, the methods local_load and local_dump, which let you load and dump file in the same directory of wherever you are calling them, by using the call stack.
 
