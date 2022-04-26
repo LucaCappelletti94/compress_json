@@ -15,6 +15,7 @@ def test_compress_json():
         path = f"random_dirs/test.json.{ext}"
         compress_json.dump(dictionary, path)
         assert key == sha256(compress_json.load(path))
+        assert key == sha256(compress_json.load(path, use_cache=True))
 
     shutil.rmtree("random_dirs")
 
@@ -22,5 +23,6 @@ def test_compress_json():
         path = f"random_dirs/test.json.{ext}"
         compress_json.local_dump(dictionary, path)
         assert key == sha256(compress_json.local_load(path))
+        assert key == sha256(compress_json.local_load(path, use_cache=True))
 
     shutil.rmtree("tests/random_dirs")
