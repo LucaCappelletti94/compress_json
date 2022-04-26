@@ -35,6 +35,8 @@ _DEFAULT_COMPRESSION_READ_MODES = {
     "lzma": "rt"
 }
 
+_CACHE = {}
+
 
 def get_compression_write_mode(compression: str) -> str:
     """Return mode for opening file buffer for writing.
@@ -144,7 +146,8 @@ def dump(
 def load(
     path: str,
     compression_kwargs: Optional[Dict] = None,
-    json_kwargs: Optional[Dict] = None
+    json_kwargs: Optional[Dict] = None,
+    use_cache: bool = False
 ):
     """Return json object at given path uncompressed with detected compression protocol.
 
@@ -156,6 +159,8 @@ def load(
         keywords argument to pass to the compressed file opening protocol.
     json_kwargs: Optional[Dict] = None
         keywords argument to pass to the json file opening protocol.
+    use_cache: bool = False
+        Whether to put loaded JSON files in a static cache object.
 
     Raises
     ----------------
@@ -164,6 +169,9 @@ def load(
     """
     if not isinstance(path, str):
         raise ValueError("The given path is not a string.")
+
+    if use_cache and path in _CACHE:
+        return _CACHE[path]
 
     compression_kwargs = {} if compression_kwargs is None else compression_kwargs
     json_kwargs = {} if json_kwargs is None else json_kwargs
@@ -184,7 +192,12 @@ def load(
         file = lzma.open(path, mode=mode, encoding="utf-8",
                          **compression_kwargs)
     with file:
-        return json.load(file, **json_kwargs)
+        json_content = json.load(file, **json_kwargs)
+
+    if use_cache:
+        _CACHE[path] = json_content
+    
+    return json_content
 
 
 def local_path(relative_path: str) -> str:
@@ -212,7 +225,8 @@ def local_path(relative_path: str) -> str:
 def local_load(
     path: str,
     compression_kwargs: Optional[Dict] = None,
-    json_kwargs: Optional[Dict] = None
+    json_kwargs: Optional[Dict] = None,
+    use_cache: bool = False
 ) -> Any:
     """Return json object at given local path uncompressed with detected compression protocol.
 
@@ -224,13 +238,20 @@ def local_load(
         keywords argument to pass to the compressed file opening protocol.
     json_kwargs: Optional[Dict] = None
         keywords argument to pass to the json file opening protocol.
+    use_cache: bool = False
+        Whether to put loaded JSON files in a static cache object.
 
     Raises
     ----------------
     ValueError,
         If given path is not a valid string.
     """
-    return load(local_path(path), compression_kwargs, json_kwargs)
+    return load(
+        local_path(path),
+        compression_kwargs,
+        json_kwargs,
+        use_cache
+    )
 
 
 def local_dump(

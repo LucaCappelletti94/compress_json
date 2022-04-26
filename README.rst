@@ -71,6 +71,26 @@ This can get useful, especially when loading files within packages.
     D2 = compress_json.local_load("filepath.json.bz") # for loading a bz2 file
     D3 = compress_json.local_load("filepath.json.lzma") # for loading a lzma file
 
+Loading with RAM cache
+----------------------------------------------
+Sometimes you need to load a compressed JSON file a LOT of times, and you may want to
+put this document in a cache or something of the sorts. Fortunately, we already provide
+this option for you:
+
+.. code:: python
+
+    import compress_json
+    
+    D1 = compress_json.load(
+        "filepath.json.gz",
+        use_cache=True
+    )
+
+    D1 = compress_json.local_load(
+        "filepath.json.gz",
+        use_cache=True
+    )
+
 Advanced usage
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Clearly you can pass parameters to either the chosen compression mode or the json library as follows:
