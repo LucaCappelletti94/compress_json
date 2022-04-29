@@ -83,7 +83,8 @@ def dump(
     obj: Any,
     path: str,
     compression_kwargs: Optional[Dict] = None,
-    json_kwargs: Optional[Dict] = None
+    json_kwargs: Optional[Dict] = None,
+    encoding: str = "utf-8",
 ):
     """Dump the contents of an object to disk as json using the detected compression protocol.
 
@@ -97,6 +98,8 @@ def dump(
         Keywords argument to pass to the compressed file opening protocol.
     json_kwargs: Optional[Dict] = None
         Keywords argument to pass to the json file opening protocol.
+    encoding: str = "utf-8"
+        The encoding to use to dump the document. By default, UTF8.
 
     Raises
     ----------------
@@ -123,21 +126,21 @@ def dump(
         os.makedirs(directory, exist_ok=True)
 
     if compression is None or compression == "json":
-        fout = open(path, mode=mode, encoding="utf-8", **compression_kwargs)
+        fout = open(path, mode=mode, encoding=encoding, **compression_kwargs)
     elif compression == "gzip":
         import gzip
 
-        fout = gzip.open(path, mode=mode, encoding="utf-8",
+        fout = gzip.open(path, mode=mode, encoding=encoding,
                          **compression_kwargs)
     elif compression == "bz2":
         import bz2
 
-        fout = bz2.open(path, mode=mode, encoding="utf-8",
+        fout = bz2.open(path, mode=mode, encoding=encoding,
                         **compression_kwargs)
     elif compression == "lzma":
         import lzma
 
-        fout = lzma.open(path, mode=mode, encoding="utf-8",
+        fout = lzma.open(path, mode=mode, encoding=encoding,
                          **compression_kwargs)
     with fout:
         json.dump(obj, fout, **json_kwargs)
@@ -147,6 +150,7 @@ def load(
     path: str,
     compression_kwargs: Optional[Dict] = None,
     json_kwargs: Optional[Dict] = None,
+    encoding: str = "utf-8",
     use_cache: bool = False
 ):
     """Return json object at given path uncompressed with detected compression protocol.
@@ -156,9 +160,11 @@ def load(
     path: str
         The path to the file from which to load the ``obj``
     compression_kwargs: Optional[Dict] = None
-        keywords argument to pass to the compressed file opening protocol.
+        Keywords argument to pass to the compressed file opening protocol.
     json_kwargs: Optional[Dict] = None
-        keywords argument to pass to the json file opening protocol.
+        Keywords argument to pass to the json file opening protocol.
+    encoding: str = "utf-8"
+        The encoding to use to load the document. By default, UTF8.
     use_cache: bool = False
         Whether to put loaded JSON files in a static cache object.
 
@@ -178,25 +184,25 @@ def load(
     compression = infer_compression_from_filename(path)
     mode = get_compression_read_mode(compression)
     if compression is None or compression == "json":
-        file = open(path, mode=mode, encoding="utf-8", **compression_kwargs)
+        file = open(path, mode=mode, encoding=encoding, **compression_kwargs)
     elif compression == "gzip":
         import gzip
-        file = gzip.open(path, mode=mode, encoding="utf-8",
+        file = gzip.open(path, mode=mode, encoding=encoding,
                          **compression_kwargs)
     elif compression == "bz2":
         import bz2
-        file = bz2.open(path, mode=mode, encoding="utf-8",
+        file = bz2.open(path, mode=mode, encoding=encoding,
                         **compression_kwargs)
     elif compression == "lzma":
         import lzma
-        file = lzma.open(path, mode=mode, encoding="utf-8",
+        file = lzma.open(path, mode=mode, encoding=encoding,
                          **compression_kwargs)
     with file:
         json_content = json.load(file, **json_kwargs)
 
     if use_cache:
         _CACHE[path] = json_content
-    
+
     return json_content
 
 
@@ -226,6 +232,7 @@ def local_load(
     path: str,
     compression_kwargs: Optional[Dict] = None,
     json_kwargs: Optional[Dict] = None,
+    encoding: str = "utf-8",
     use_cache: bool = False
 ) -> Any:
     """Return json object at given local path uncompressed with detected compression protocol.
@@ -238,6 +245,8 @@ def local_load(
         keywords argument to pass to the compressed file opening protocol.
     json_kwargs: Optional[Dict] = None
         keywords argument to pass to the json file opening protocol.
+    encoding: str = "utf-8"
+        The encoding to use to load the document. By default, UTF8.
     use_cache: bool = False
         Whether to put loaded JSON files in a static cache object.
 
@@ -250,6 +259,7 @@ def local_load(
         local_path(path),
         compression_kwargs,
         json_kwargs,
+        encoding,
         use_cache
     )
 
@@ -258,7 +268,8 @@ def local_dump(
     obj: Any,
     path: str,
     compression_kwargs: Optional[Dict] = None,
-    json_kwargs: Optional[Dict] = None
+    json_kwargs: Optional[Dict] = None,
+    encoding: str = "utf-8",
 ):
     """Dump the contents of an object to disk as json, using the detected compression protocol.
 
@@ -272,10 +283,13 @@ def local_dump(
         keywords argument to pass to the compressed file opening protocol.
     json_kwargs: Optional[Dict] = None
         keywords argument to pass to the json file opening protocol.
+    encoding: str = "utf-8"
+        The encoding to use to dump the document. By default, UTF8.
+
 
     Raises
     ----------------
     ValueError
         If given path is not a valid string.
     """
-    dump(obj, local_path(path), compression_kwargs, json_kwargs)
+    dump(obj, local_path(path), compression_kwargs, json_kwargs, encoding)
