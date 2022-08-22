@@ -65,6 +65,6 @@ setup(
     packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
     tests_require=test_deps,
     # Add here the package dependencies
-    install_requires=[],
+    install_requires=["support_developer"],
     extras_require=extras,
 )
