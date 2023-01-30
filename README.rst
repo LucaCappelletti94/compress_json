@@ -86,7 +86,20 @@ this option for you:
 
 Advanced usage
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Clearly you can pass parameters to either the chosen compression mode or the json library as follows:
+You can pass parameters to either the chosen compression mode or the JSON library.
+
+With the `json_kwargs` parameter you can specify any of the kwargs that should
+be forwarded to the JSON library method, which you can obtain for your Python version
+by running `help(json.dump)` and `help(json.load)`, depending whether you are
+dumping or loading the json object.
+
+Analogously, with the `compression_kwargs` parameter you can specify any parameter that
+has to be forwarded to the compression library that you intend to use, whether that is
+`lzma`, `gzip` or `bz2`, and as per JSON will depend on which version you have installed.
+
+Whether you are dumping or loading a compressed JSON object, you can get the list of parameters you
+have available to forward to the compression method by running `help(lzma.open)`, `help(gzip.open)`
+or `help(bz2.open)`, respectively.
 
 .. code:: python
 
@@ -108,6 +121,7 @@ Clearly you can pass parameters to either the chosen compression mode or the jso
         compression_kwargs = {kwargs go here},
         json_kwargs = {kwargs go here}
     )
+
 
 .. |pip| image:: https://badge.fury.io/py/compress-json.svg
     :target: https://badge.fury.io/py/compress-json

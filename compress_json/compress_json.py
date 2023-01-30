@@ -116,6 +116,7 @@ def dump(
                 ).format(type(path))
             )
         raise ValueError("The given path is not a string.")
+    
     compression_kwargs = {} if compression_kwargs is None else compression_kwargs
     json_kwargs = {} if json_kwargs is None else json_kwargs
     compression = infer_compression_from_filename(path)
@@ -183,6 +184,7 @@ def load(
     json_kwargs = {} if json_kwargs is None else json_kwargs
     compression = infer_compression_from_filename(path)
     mode = get_compression_read_mode(compression)
+
     if compression is None or compression == "json":
         file = open(path, mode=mode, encoding=encoding, **compression_kwargs)
     elif compression == "gzip":
@@ -256,11 +258,11 @@ def local_load(
         If given path is not a valid string.
     """
     return load(
-        local_path(path),
-        compression_kwargs,
-        json_kwargs,
-        encoding,
-        use_cache
+        pah=local_path(path),
+        compression_kwargs=compression_kwargs,
+        json_kwargs=json_kwargs,
+        encoding=encoding,
+        use_cache=use_cache
     )
 
 
@@ -292,4 +294,10 @@ def local_dump(
     ValueError
         If given path is not a valid string.
     """
-    dump(obj, local_path(path), compression_kwargs, json_kwargs, encoding)
+    dump(
+        obj,
+        path=local_path(path),
+        compression_kwargs=compression_kwargs,
+        json_kwargs=json_kwargs,
+        encoding=encoding
+    )
