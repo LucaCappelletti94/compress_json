@@ -4,7 +4,7 @@ compress_json
 
 The missing Python utility to read and write large compressed JSONs.
 
-The library is loosely based on the `compress_pickle <https://github.com/lucianopaz/compress_pickle>`_ library.
+The library is loosely based on the :code:`compress_pickle <https://github.com/lucianopaz/compress_pickle>`_ library.
 
 How do I install this package?
 ----------------------------------------------
@@ -88,18 +88,18 @@ Advanced usage
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 You can pass parameters to either the chosen compression mode or the JSON library.
 
-With the `json_kwargs` parameter you can specify any of the kwargs that should
+With the :code:`json_kwargs` parameter you can specify any of the kwargs that should
 be forwarded to the JSON library method, which you can obtain for your Python version
-by running `help(json.dump)` and `help(json.load)`, depending whether you are
+by running :code:`help(json.dump)` and :code:`help(json.load)`, depending whether you are
 dumping or loading the json object.
 
-Analogously, with the `compression_kwargs` parameter you can specify any parameter that
+Analogously, with the :code:`compression_kwargs` parameter you can specify any parameter that
 has to be forwarded to the compression library that you intend to use, whether that is
-`lzma`, `gzip` or `bz2`, and as per JSON will depend on which version you have installed.
+`lzma`, :code:`gzip` or :code:`bz2`, and as per JSON will depend on which version you have installed.
 
 Whether you are dumping or loading a compressed JSON object, you can get the list of parameters you
-have available to forward to the compression method by running `help(lzma.open)`, `help(gzip.open)`
-or `help(bz2.open)`, respectively.
+have available to forward to the compression method by running :code:`help(lzma.open)`, :code:`help(gzip.open)`
+or :code:`help(bz2.open)`, respectively.
 
 .. code:: python
 
