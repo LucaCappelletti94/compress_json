@@ -4,7 +4,7 @@ compress_json
 
 The missing Python utility to read and write large compressed JSONs.
 
-The library is loosely based on the :code:`compress_pickle <https://github.com/lucianopaz/compress_pickle>`_ library.
+The library is loosely based on the `compress_pickle <https://github.com/lucianopaz/compress_pickle>`_ library.
 
 How do I install this package?
 ----------------------------------------------
