@@ -258,7 +258,7 @@ def local_load(
         If given path is not a valid string.
     """
     return load(
-        path=local_path(path),
+        pah=local_path(path),
         compression_kwargs=compression_kwargs,
         json_kwargs=json_kwargs,
         encoding=encoding,
