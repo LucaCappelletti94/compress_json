@@ -7,33 +7,18 @@ from typing import Dict, Any, Optional
 import traceback
 import os
 
-__all__ = [
-    "dump",
-    "load",
-    "local_dump",
-    "local_load"
-]
+__all__ = ["dump", "load", "local_dump", "local_load"]
 
-_DEFAULT_EXTENSION_MAP = {
-    "json": "json",
-    "gz": "gzip",
-    "bz": "bz2",
-    "lzma": "lzma"
-}
+_DEFAULT_EXTENSION_MAP = {"json": "json", "gz": "gzip", "bz": "bz2", "lzma": "lzma"}
 
 _DEFAULT_COMPRESSION_WRITE_MODES = {
     "json": "w",
     "gzip": "wt",
     "bz2": "wt",
-    "lzma": "wt"
+    "lzma": "wt",
 }
 
-_DEFAULT_COMPRESSION_READ_MODES = {
-    "json": "r",
-    "gzip": "rt",
-    "bz2": "rt",
-    "lzma": "rt"
-}
+_DEFAULT_COMPRESSION_READ_MODES = {"json": "r", "gzip": "rt", "bz2": "rt", "lzma": "rt"}
 
 _CACHE = {}
 
@@ -112,11 +97,11 @@ def dump(
                 (
                     "The object you have provided to the dump method is a string "
                     "while the object you have provided as a path is NOT a string "
-                    "but an object of type {}. Maybe you need to swap them?"
-                ).format(type(path))
+                    f"but an object of type {type(path)}. Maybe you need to swap them?"
+                )
             )
         raise ValueError("The given path is not a string.")
-    
+
     compression_kwargs = {} if compression_kwargs is None else compression_kwargs
     json_kwargs = {} if json_kwargs is None else json_kwargs
     compression = infer_compression_from_filename(path)
@@ -129,20 +114,17 @@ def dump(
     if compression is None or compression == "json":
         fout = open(path, mode=mode, encoding=encoding, **compression_kwargs)
     elif compression == "gzip":
-        import gzip
+        import gzip # pylint: disable=import-outside-toplevel
 
-        fout = gzip.open(path, mode=mode, encoding=encoding,
-                         **compression_kwargs)
+        fout = gzip.open(path, mode=mode, encoding=encoding, **compression_kwargs)
     elif compression == "bz2":
-        import bz2
+        import bz2 # pylint: disable=import-outside-toplevel
 
-        fout = bz2.open(path, mode=mode, encoding=encoding,
-                        **compression_kwargs)
+        fout = bz2.open(path, mode=mode, encoding=encoding, **compression_kwargs)
     elif compression == "lzma":
-        import lzma
+        import lzma # pylint: disable=import-outside-toplevel
 
-        fout = lzma.open(path, mode=mode, encoding=encoding,
-                         **compression_kwargs)
+        fout = lzma.open(path, mode=mode, encoding=encoding, **compression_kwargs)
     with fout:
         json.dump(obj, fout, **json_kwargs)
 
@@ -152,7 +134,7 @@ def load(
     compression_kwargs: Optional[Dict] = None,
     json_kwargs: Optional[Dict] = None,
     encoding: str = "utf-8",
-    use_cache: bool = False
+    use_cache: bool = False,
 ):
     """Return json object at given path uncompressed with detected compression protocol.
 
@@ -188,17 +170,17 @@ def load(
     if compression is None or compression == "json":
         file = open(path, mode=mode, encoding=encoding, **compression_kwargs)
     elif compression == "gzip":
-        import gzip
-        file = gzip.open(path, mode=mode, encoding=encoding,
-                         **compression_kwargs)
+        import gzip # pylint: disable=import-outside-toplevel
+
+        file = gzip.open(path, mode=mode, encoding=encoding, **compression_kwargs)
     elif compression == "bz2":
-        import bz2
-        file = bz2.open(path, mode=mode, encoding=encoding,
-                        **compression_kwargs)
+        import bz2 # pylint: disable=import-outside-toplevel
+
+        file = bz2.open(path, mode=mode, encoding=encoding, **compression_kwargs)
     elif compression == "lzma":
-        import lzma
-        file = lzma.open(path, mode=mode, encoding=encoding,
-                         **compression_kwargs)
+        import lzma # pylint: disable=import-outside-toplevel
+
+        file = lzma.open(path, mode=mode, encoding=encoding, **compression_kwargs)
     with file:
         json_content = json.load(file, **json_kwargs)
 
@@ -221,12 +203,8 @@ def local_path(relative_path: str) -> str:
     The absolute path with as root the caller function.
     """
     return os.path.join(
-        os.path.dirname(
-            os.path.abspath(
-                traceback.extract_stack()[-3].filename
-            )
-        ),
-        relative_path
+        os.path.dirname(os.path.abspath(traceback.extract_stack()[-3].filename)),
+        relative_path,
     )
 
 
@@ -235,7 +213,7 @@ def local_load(
     compression_kwargs: Optional[Dict] = None,
     json_kwargs: Optional[Dict] = None,
     encoding: str = "utf-8",
-    use_cache: bool = False
+    use_cache: bool = False,
 ) -> Any:
     """Return json object at given local path uncompressed with detected compression protocol.
 
@@ -262,7 +240,7 @@ def local_load(
         compression_kwargs=compression_kwargs,
         json_kwargs=json_kwargs,
         encoding=encoding,
-        use_cache=use_cache
+        use_cache=use_cache,
     )
 
 
@@ -299,5 +277,5 @@ def local_dump(
         path=local_path(path),
         compression_kwargs=compression_kwargs,
         json_kwargs=json_kwargs,
-        encoding=encoding
+        encoding=encoding,
     )
