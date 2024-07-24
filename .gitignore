@@ -16,3 +16,4 @@ htmlcov
 .coverage*
 filepath.*
 test_readme.py
+build/
