@@ -153,3 +153,6 @@ D4 = compress_json.load(
 
 assert D == D4
 ```
+
+## License
+The library is released under the MIT license.
