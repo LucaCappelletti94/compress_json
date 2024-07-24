@@ -21,7 +21,7 @@ pip install compress_json
 
 ## Available compression modes
 
-The compression modes, detected automatically by the file name, are **gzip**, **bz2**, and **lzma**, with the notable exception of **zip** which seems difficult to integrate into the JSON pipeline.
+The compression modes, detected automatically by the file name, are **gzip**, **bz2**, and **lzma** (or **xz**), with the notable exception of **zip** which seems difficult to integrate into the JSON pipeline.
 
 ## Usage example
 
@@ -38,23 +38,15 @@ D = {
 compress_json.dump(D, "filepath.json.gz")   # for a gzip file
 compress_json.dump(D, "filepath.json.bz")   # for a bz2 file
 compress_json.dump(D, "filepath.json.lzma") # for a lzma file
+compress_json.dump(D, "filepath.json.xz") # for a lzma file
 
 D1 = compress_json.load("filepath.json.gz")   # for loading a gzip file
 D2 = compress_json.load("filepath.json.bz")   # for loading a bz2 file
 D3 = compress_json.load("filepath.json.lzma") # for loading a lzma file
+D3 = compress_json.load("filepath.json.xz") # for loading a lzma file
 ```
 
-If it happens that you have to load a file with some custom extension that is actually a compressed JSON file, you can specify the compression mode manually:
-
-```python
-import compress_json
-
-D1 = compress_json.load("filepath.custom_extension", compression="gzip")   # for loading a gzip file
-D2 = compress_json.load("filepath.custom_extension", compression="bz2")   # for loading a bz2 file
-D3 = compress_json.load("filepath.custom_extension", compression="lzma") # for loading a lzma file
-```
-
-Analogously, you can specify the compression mode when dumping a JSON object when the file extension is not one of the standard ones:
+If it happens that you have to load or dump a JSON object with a custom extension, you can specify the compression mode by passing the `compression` parameter to the `load` and `dump` methods:
 
 ```python
 import compress_json
@@ -65,9 +57,15 @@ D = {
     }
 }
 
-compress_json.dump(D, "filepath.custom_extension", compression="gzip")   # for a gzip file
-compress_json.dump(D, "filepath.custom_extension", compression="bz2")   # for a bz2 file
-compress_json.dump(D, "filepath.custom_extension", compression="lzma") # for a lzma file
+compress_json.dump(D, "filepath.custom_extension1", compression="gzip")   # for a gzip file
+compress_json.dump(D, "filepath.custom_extension2", compression="bz2")   # for a bz2 file
+compress_json.dump(D, "filepath.custom_extension3", compression="lzma") # for a lzma file
+
+D1 = compress_json.load("filepath.custom_extension1", compression="gzip")   # for loading a gzip file
+D2 = compress_json.load("filepath.custom_extension2", compression="bz2")   # for loading a bz2 file
+D3 = compress_json.load("filepath.custom_extension3", compression="lzma") # for loading a lzma file
+
+assert D == D1 == D2 == D3
 ```
 
 ## Some extra perks: local loading and dumping
@@ -91,6 +89,8 @@ compress_json.local_dump(D, "filepath.json.lzma") # for a lzma file
 D1 = compress_json.local_load("filepath.json.gz")   # for loading a gzip file
 D2 = compress_json.local_load("filepath.json.bz")   # for loading a bz2 file
 D3 = compress_json.local_load("filepath.json.lzma") # for loading a lzma file
+
+assert D == D1 == D2 == D3
 ```
 
 ## Loading with RAM cache
@@ -100,15 +100,19 @@ Sometimes you need to load a compressed JSON file a LOT of times, and you may wa
 ```python
 import compress_json
 
+# The first time you load the file, it will be cached in RAM
 D1 = compress_json.load(
     "filepath.json.gz",
     use_cache=True
 )
 
-D1 = compress_json.local_load(
+# The second time you load the file, it will be loaded from the cache
+D2 = compress_json.local_load(
     "filepath.json.gz",
     use_cache=True
 )
+
+assert D1 == D2
 ```
 
 ## Advanced usage
@@ -131,13 +135,21 @@ D = {
 }
 compress_json.dump(
     D, "filepath.json.gz",
-    compression_kwargs={kwargs go here},
-    json_kwargs={kwargs go here}
+    compression_kwargs={
+        "compresslevel": 9 # The kwargs for gzip
+    },
+    json_kwargs={
+        "indent": 4 # The kwargs for json
+    }
 )
 
 D4 = compress_json.load(
     "filepath.json.gz",
-    compression_kwargs={kwargs go here},
-    json_kwargs={kwargs go here}
+    compression_kwargs={ 
+        "compresslevel": 9 # The kwargs for gzip
+    },
+    json_kwargs={} # The kwargs for json
 )
+
+assert D == D4
 ```

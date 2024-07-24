@@ -33,6 +33,7 @@ __version__ = find_version("compress_json", "__version__.py")
 test_deps =[
     "pytest",
     "pytest-cov",
+    "pytest-readme",
     "validate_version_code",
     "random_dict",
     "dict_hash"
