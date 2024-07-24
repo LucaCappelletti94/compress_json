@@ -3,13 +3,19 @@
 A thin wrapper of standard ``json`` with standard compression libraries.
 """
 import json
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List
 import traceback
 import os
 
 __all__ = ["dump", "load", "local_dump", "local_load"]
 
-_DEFAULT_EXTENSION_MAP = {"json": "json", "gz": "gzip", "bz": "bz2", "lzma": "lzma"}
+_DEFAULT_EXTENSION_MAP = {
+    "json": "json",
+    "gz": "gzip",
+    "bz": "bz2",
+    "lzma": "lzma",
+    "xz": "lzma",
+}
 
 _DEFAULT_COMPRESSION_WRITE_MODES = {
     "json": "w",
@@ -21,6 +27,11 @@ _DEFAULT_COMPRESSION_WRITE_MODES = {
 _DEFAULT_COMPRESSION_READ_MODES = {"json": "r", "gzip": "rt", "bz2": "rt", "lzma": "rt"}
 
 _CACHE = {}
+
+
+def get_supported_extensions() -> List[str]:
+    """Return the supported extensions for compression algorithms."""
+    return list(_DEFAULT_EXTENSION_MAP.keys())
 
 
 def get_compression_write_mode(compression: str) -> str:
@@ -67,6 +78,7 @@ def infer_compression_from_filename(filename: str) -> str:
 def dump(
     obj: Any,
     path: str,
+    compression: Optional[str] = None,
     compression_kwargs: Optional[Dict] = None,
     json_kwargs: Optional[Dict] = None,
     encoding: str = "utf-8",
@@ -79,6 +91,8 @@ def dump(
         The object that will be saved to disk
     path: str
         The path to the file to which to dump ``obj``
+    compression: Optional[str] = None
+        The compression protocol to use. If None, it will be inferred from the file extension.
     compression_kwargs: Optional[Dict] = None
         Keywords argument to pass to the compressed file opening protocol.
     json_kwargs: Optional[Dict] = None
@@ -104,7 +118,9 @@ def dump(
 
     compression_kwargs = {} if compression_kwargs is None else compression_kwargs
     json_kwargs = {} if json_kwargs is None else json_kwargs
-    compression = infer_compression_from_filename(path)
+    compression = (
+        infer_compression_from_filename(path) if compression is None else compression
+    )
     mode = get_compression_write_mode(compression)
 
     directory = os.path.dirname(path)
@@ -114,23 +130,25 @@ def dump(
     if compression is None or compression == "json":
         fout = open(path, mode=mode, encoding=encoding, **compression_kwargs)
     elif compression == "gzip":
-        import gzip # pylint: disable=import-outside-toplevel
+        import gzip  # pylint: disable=import-outside-toplevel
 
         fout = gzip.open(path, mode=mode, encoding=encoding, **compression_kwargs)
     elif compression == "bz2":
-        import bz2 # pylint: disable=import-outside-toplevel
+        import bz2  # pylint: disable=import-outside-toplevel
 
         fout = bz2.open(path, mode=mode, encoding=encoding, **compression_kwargs)
     elif compression == "lzma":
-        import lzma # pylint: disable=import-outside-toplevel
+        import lzma  # pylint: disable=import-outside-toplevel
 
         fout = lzma.open(path, mode=mode, encoding=encoding, **compression_kwargs)
+
     with fout:
         json.dump(obj, fout, **json_kwargs)
 
 
 def load(
     path: str,
+    compression: Optional[str] = None,
     compression_kwargs: Optional[Dict] = None,
     json_kwargs: Optional[Dict] = None,
     encoding: str = "utf-8",
@@ -142,6 +160,8 @@ def load(
     ----------
     path: str
         The path to the file from which to load the ``obj``
+    compression: Optional[str] = None
+        The compression protocol to use. If None, it will be inferred from the file extension.
     compression_kwargs: Optional[Dict] = None
         Keywords argument to pass to the compressed file opening protocol.
     json_kwargs: Optional[Dict] = None
@@ -164,21 +184,23 @@ def load(
 
     compression_kwargs = {} if compression_kwargs is None else compression_kwargs
     json_kwargs = {} if json_kwargs is None else json_kwargs
-    compression = infer_compression_from_filename(path)
+    compression = (
+        infer_compression_from_filename(path) if compression is None else compression
+    )
     mode = get_compression_read_mode(compression)
 
     if compression is None or compression == "json":
         file = open(path, mode=mode, encoding=encoding, **compression_kwargs)
     elif compression == "gzip":
-        import gzip # pylint: disable=import-outside-toplevel
+        import gzip  # pylint: disable=import-outside-toplevel
 
         file = gzip.open(path, mode=mode, encoding=encoding, **compression_kwargs)
     elif compression == "bz2":
-        import bz2 # pylint: disable=import-outside-toplevel
+        import bz2  # pylint: disable=import-outside-toplevel
 
         file = bz2.open(path, mode=mode, encoding=encoding, **compression_kwargs)
     elif compression == "lzma":
-        import lzma # pylint: disable=import-outside-toplevel
+        import lzma  # pylint: disable=import-outside-toplevel
 
         file = lzma.open(path, mode=mode, encoding=encoding, **compression_kwargs)
     with file:
@@ -210,6 +232,7 @@ def local_path(relative_path: str) -> str:
 
 def local_load(
     path: str,
+    compression: Optional[str] = None,
     compression_kwargs: Optional[Dict] = None,
     json_kwargs: Optional[Dict] = None,
     encoding: str = "utf-8",
@@ -221,6 +244,8 @@ def local_load(
     ----------
     path: str
         The path to the local file from which to load the ``obj``
+    compression: Optional[str] = None
+        The compression protocol to use. If None, it will be inferred from the file extension.
     compression_kwargs: Optional[Dict] = None
         keywords argument to pass to the compressed file opening protocol.
     json_kwargs: Optional[Dict] = None
@@ -237,6 +262,7 @@ def local_load(
     """
     return load(
         path=local_path(path),
+        compression=compression,
         compression_kwargs=compression_kwargs,
         json_kwargs=json_kwargs,
         encoding=encoding,
@@ -247,6 +273,7 @@ def local_load(
 def local_dump(
     obj: Any,
     path: str,
+    compression: Optional[str] = None,
     compression_kwargs: Optional[Dict] = None,
     json_kwargs: Optional[Dict] = None,
     encoding: str = "utf-8",
@@ -257,6 +284,8 @@ def local_dump(
     ----------
     obj: Any
         The object that will be saved to disk
+    compression: Optional[str] = None
+        The compression protocol to use. If None, it will be inferred from the file extension.
     path: str
         The local path to the file to which to dump ``obj``
     compression_kwargs: Optional[Dict] = None
@@ -275,6 +304,7 @@ def local_dump(
     dump(
         obj,
         path=local_path(path),
+        compression=compression,
         compression_kwargs=compression_kwargs,
         json_kwargs=json_kwargs,
         encoding=encoding,

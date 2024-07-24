@@ -1,4 +1,5 @@
 """Test behaviour on wrong parameters."""
+
 import pytest
 import compress_json
 
