@@ -7,7 +7,7 @@
 [![Github Actions](https://github.com/LucaCappelletti94/ugly_csv_generator/actions/workflows/python.yml/badge.svg)](https://github.com/LucaCappelletti94/ugly_csv_generator/actions/)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/6aa4b62b4ed34f7d8e2c37ef09848294)](https://app.codacy.com/gh/LucaCappelletti94/compress_json/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
-The missing Python utility to read and write large compressed JSONs.
+The missing Python utility to read and write compressed JSONs.
 
 The library is loosely based on the [compress_pickle](https://github.com/lucianopaz/compress_pickle) library.
 
