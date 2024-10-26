@@ -1,1 +1,2 @@
 include LICENSE
+include compress_json/py.typed

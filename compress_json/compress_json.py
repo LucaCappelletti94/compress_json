@@ -26,7 +26,7 @@ _DEFAULT_COMPRESSION_WRITE_MODES = {
 
 _DEFAULT_COMPRESSION_READ_MODES = {"json": "r", "gzip": "rt", "bz2": "rt", "lzma": "rt"}
 
-_CACHE = {}
+_CACHE: Dict = {}
 
 
 def get_supported_extensions() -> List[str]:
@@ -132,15 +132,17 @@ def dump(
     elif compression == "gzip":
         import gzip  # pylint: disable=import-outside-toplevel
 
-        fout = gzip.open(path, mode=mode, encoding=encoding, **compression_kwargs)
+        fout = gzip.open(path, mode=mode, encoding=encoding, **compression_kwargs)  # type: ignore
     elif compression == "bz2":
         import bz2  # pylint: disable=import-outside-toplevel
 
-        fout = bz2.open(path, mode=mode, encoding=encoding, **compression_kwargs)
+        fout = bz2.open(path, mode=mode, encoding=encoding, **compression_kwargs)  # type: ignore
     elif compression == "lzma":
         import lzma  # pylint: disable=import-outside-toplevel
 
-        fout = lzma.open(path, mode=mode, encoding=encoding, **compression_kwargs)
+        fout = lzma.open(path, mode=mode, encoding=encoding, **compression_kwargs)  # type: ignore
+    else:
+        raise ValueError(f"Unsupported compression protocol: {compression}")
 
     with fout:
         json.dump(obj, fout, **json_kwargs)
@@ -194,7 +196,7 @@ def load(
     elif compression == "gzip":
         import gzip  # pylint: disable=import-outside-toplevel
 
-        file = gzip.open(path, mode=mode, encoding=encoding, **compression_kwargs)
+        file = gzip.open(path, mode=mode, encoding=encoding, **compression_kwargs)  # type: ignore
     elif compression == "bz2":
         import bz2  # pylint: disable=import-outside-toplevel
 
@@ -203,6 +205,9 @@ def load(
         import lzma  # pylint: disable=import-outside-toplevel
 
         file = lzma.open(path, mode=mode, encoding=encoding, **compression_kwargs)
+    else:
+        raise ValueError(f"Unsupported compression protocol: {compression}")
+
     with file:
         json_content = json.load(file, **json_kwargs)
 

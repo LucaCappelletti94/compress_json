@@ -17,3 +17,4 @@ htmlcov
 filepath.*
 test_readme.py
 build/
+.mypy_cache/
