@@ -72,7 +72,7 @@ def infer_compression_from_filename(filename: str) -> str:
     filename: str
         The filename for which to infer the compression protocol
     """
-    return _DEFAULT_EXTENSION_MAP[filename.split(".")[-1]]
+    return _DEFAULT_EXTENSION_MAP[filename.split(".")[-1].lower()]
 
 
 def dump(
