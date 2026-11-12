@@ -4,8 +4,7 @@
 [![python](https://img.shields.io/pypi/pyversions/compress-json.svg)](https://pypi.org/project/compress-json/)
 [![license](https://img.shields.io/pypi/l/compress-json.svg)](https://pypi.org/project/compress-json/)
 [![downloads](https://pepy.tech/badge/compress-json)](https://pepy.tech/project/compress-json)
-[![Github Actions](https://github.com/LucaCappelletti94/ugly_csv_generator/actions/workflows/python.yml/badge.svg)](https://github.com/LucaCappelletti94/ugly_csv_generator/actions/)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/6aa4b62b4ed34f7d8e2c37ef09848294)](https://app.codacy.com/gh/LucaCappelletti94/compress_json/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+[![Github Actions](https://github.com/LucaCappelletti94/compress_json/actions/workflows/python.yml/badge.svg)](https://github.com/LucaCappelletti94/compress_json/actions/workflows/python.yml)
 
 The missing Python utility to read and write compressed JSONs.
 
