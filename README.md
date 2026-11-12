@@ -158,5 +158,9 @@ assert D == D4
 
 Run `uv build` to create the source distribution and wheel.
 
+## Releasing
+
+Set a new version in `compress_json/__version__.py` and publish a GitHub release with a matching tag, optionally prefixed with `v`. The `publish.yml` workflow tests, builds, and publishes the source distribution and wheel through the `pypi` environment using PyPI Trusted Publishing.
+
 ## License
 The library is released under the MIT license.
