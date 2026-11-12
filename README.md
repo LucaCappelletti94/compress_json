@@ -154,5 +154,9 @@ D4 = compress_json.load(
 assert D == D4
 ```
 
+## Building
+
+Run `uv build` to create the source distribution and wheel.
+
 ## License
 The library is released under the MIT license.

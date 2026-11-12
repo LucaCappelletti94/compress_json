@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "compress_json"
+dynamic = ["version"]
+description = "The missing Python utility to read and write large compressed JSONs."
+readme = "README.md"
+authors = [{ name = "Luca Cappelletti", email = "cappelletti.luca94@gmail.com" }]
+license = "MIT"
+license-files = ["LICENSE"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Programming Language :: Python :: 3",
+]
+
+[project.urls]
+Homepage = "https://github.com/LucaCappelletti94/compress_json"
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-readme",
+    "validate_version_code",
+    "random_dict",
+    "dict_hash",
+]
+
+[tool.setuptools]
+packages = ["compress_json"]
+
+[tool.setuptools.dynamic]
+version = { attr = "compress_json.__version__.__version__" }
+
+[tool.setuptools.package-data]
+compress_json = ["py.typed"]
