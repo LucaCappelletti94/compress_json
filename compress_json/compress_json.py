@@ -65,14 +65,14 @@ def get_compression_read_mode(compression: str) -> str:
 
 
 def infer_compression_from_filename(filename: str) -> str:
-    """Return the compression protocal inferred from given filename.
+    """Infer the compression protocol from the filename, ignoring extension case.
 
     Parameters
     ----------
     filename: str
         The filename for which to infer the compression protocol
     """
-    return _DEFAULT_EXTENSION_MAP[filename.split(".")[-1]]
+    return _DEFAULT_EXTENSION_MAP[filename.split(".")[-1].lower()]
 
 
 def dump(
